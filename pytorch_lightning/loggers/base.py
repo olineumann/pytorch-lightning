@@ -8,7 +8,7 @@ from typing import Union, Optional, Dict, Iterable, Any, Callable, List, Sequenc
 import numpy as np
 import torch
 
-from pytorch_lightning.utilities.distributed import rank_zero_only
+from pytorch_lightning.utilities import rank_zero_only
 
 
 class LightningLoggerBase(ABC):
@@ -33,7 +33,6 @@ class LightningLoggerBase(ABC):
             `agg_key_funcs` and `agg_default_func` are used only when one logs metrics with
             `LightningLoggerBase.agg_and_log_metrics` method.
         """
-        self._rank = 0
         self._prev_step = -1
         self._metrics_to_agg: List[Dict[str, float]] = []
         self._agg_key_funcs = agg_key_funcs if agg_key_funcs else {}
@@ -223,16 +222,6 @@ class LightningLoggerBase(ABC):
             self.log_metrics(metrics=metrics_to_log, step=agg_step)
 
     @property
-    def rank(self) -> int:
-        """Process rank. In general, metrics should only be logged by the process with rank 0."""
-        return self._rank
-
-    @rank.setter
-    def rank(self, value: int) -> None:
-        """Set the process rank."""
-        self._rank = value
-
-    @property
     @abstractmethod
     def name(self) -> str:
         """Return the experiment name."""
@@ -280,12 +269,6 @@ class LoggerCollection(LightningLoggerBase):
     @rank_zero_only
     def close(self) -> None:
         [logger.close() for logger in self._logger_iterable]
-
-    @LightningLoggerBase.rank.setter
-    def rank(self, value: int) -> None:
-        self._rank = value
-        for logger in self._logger_iterable:
-            logger.rank = value
 
     @property
     def name(self) -> str:
