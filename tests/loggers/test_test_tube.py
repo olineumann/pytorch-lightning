@@ -15,14 +15,12 @@ def test_testtube_logger(tmpdir):
 
     assert logger.name == 'lightning_logs'
 
-    trainer_options = dict(
+    trainer = Trainer(
         default_root_dir=tmpdir,
         max_epochs=1,
         train_percent_check=0.05,
         logger=logger
     )
-
-    trainer = Trainer(**trainer_options)
     result = trainer.fit(model)
 
     assert result == 1, 'Training failed'
@@ -38,14 +36,12 @@ def test_testtube_pickle(tmpdir):
     logger.log_hyperparams(hparams)
     logger.save()
 
-    trainer_options = dict(
+    trainer = Trainer(
         default_root_dir=tmpdir,
         max_epochs=1,
         train_percent_check=0.05,
         logger=logger
     )
-
-    trainer = Trainer(**trainer_options)
     pkl_bytes = pickle.dumps(trainer)
     trainer2 = pickle.loads(pkl_bytes)
     trainer2.logger.log_metrics({'acc': 1.0})

@@ -24,13 +24,12 @@ def test_mlflow_logger(tmpdir):
     # Try logging string
     logger.log_metrics({'acc': 'test'})
 
-    trainer_options = dict(
+    trainer = Trainer(
         default_root_dir=tmpdir,
         max_epochs=1,
         train_percent_check=0.05,
         logger=logger
     )
-    trainer = Trainer(**trainer_options)
     result = trainer.fit(model)
 
     assert result == 1, 'Training failed'
@@ -42,13 +41,12 @@ def test_mlflow_pickle(tmpdir):
 
     mlflow_dir = os.path.join(tmpdir, 'mlruns')
     logger = MLFlowLogger('test', tracking_uri=f'file:{os.sep * 2}{mlflow_dir}')
-    trainer_options = dict(
+
+    trainer = Trainer(
         default_root_dir=tmpdir,
         max_epochs=1,
         logger=logger
     )
-
-    trainer = Trainer(**trainer_options)
     pkl_bytes = pickle.dumps(trainer)
     trainer2 = pickle.loads(pkl_bytes)
     trainer2.logger.log_metrics({'acc': 1.0})

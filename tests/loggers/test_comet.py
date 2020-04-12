@@ -34,14 +34,12 @@ def test_comet_logger(tmpdir, monkeypatch):
         workspace='dummy-test',
     )
 
-    trainer_options = dict(
+    trainer = Trainer(
         default_root_dir=tmpdir,
         max_epochs=1,
         train_percent_check=0.05,
         logger=logger
     )
-
-    trainer = Trainer(**trainer_options)
     result = trainer.fit(model)
     trainer.logger.log_metrics({'acc': torch.ones(1)})
 
@@ -144,13 +142,11 @@ def test_comet_pickle(tmpdir, monkeypatch):
         workspace='dummy-test',
     )
 
-    trainer_options = dict(
+    trainer = Trainer(
         default_root_dir=tmpdir,
         max_epochs=1,
         logger=logger
     )
-
-    trainer = Trainer(**trainer_options)
     pkl_bytes = pickle.dumps(trainer)
     trainer2 = pickle.loads(pkl_bytes)
     trainer2.logger.log_metrics({'acc': 1.0})

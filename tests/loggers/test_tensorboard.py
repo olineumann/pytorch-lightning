@@ -18,9 +18,7 @@ def test_tensorboard_logger(tmpdir):
 
     logger = TensorBoardLogger(save_dir=tmpdir, name="tensorboard_logger_test")
 
-    trainer_options = dict(max_epochs=1, train_percent_check=0.01, logger=logger)
-
-    trainer = Trainer(**trainer_options)
+    trainer = Trainer(max_epochs=1, train_percent_check=0.01, logger=logger)
     result = trainer.fit(model)
 
     print("result finished")
@@ -31,10 +29,7 @@ def test_tensorboard_pickle(tmpdir):
     """Verify that pickling trainer with Tensorboard logger works."""
 
     logger = TensorBoardLogger(save_dir=tmpdir, name="tensorboard_pickle_test")
-
-    trainer_options = dict(max_epochs=1, logger=logger)
-
-    trainer = Trainer(**trainer_options)
+    trainer = Trainer(max_epochs=1, logger=logger)
     pkl_bytes = pickle.dumps(trainer)
     trainer2 = pickle.loads(pkl_bytes)
     trainer2.logger.log_metrics({"acc": 1.0})
