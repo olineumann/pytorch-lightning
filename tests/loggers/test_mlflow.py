@@ -4,7 +4,7 @@ import pickle
 import tests.base.utils as tutils
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import MLFlowLogger
-from tests.base import LightningTestModel
+from tests.base import LightningTrialModel
 
 
 def test_mlflow_logger(tmpdir):
@@ -12,7 +12,7 @@ def test_mlflow_logger(tmpdir):
     tutils.reset_seed()
 
     hparams = tutils.get_default_hparams()
-    model = LightningTestModel(hparams)
+    model = LightningTrialModel(hparams)
 
     mlflow_dir = os.path.join(tmpdir, 'mlruns')
     logger = MLFlowLogger('test', tracking_uri=f'file:{os.sep * 2}{mlflow_dir}')

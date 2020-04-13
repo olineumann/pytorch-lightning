@@ -7,14 +7,14 @@ import torch
 import tests.base.utils as tutils
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
-from tests.base import LightningTestModel
+from tests.base import LightningTrialModel
 
 
 def test_tensorboard_logger(tmpdir):
     """Verify that basic functionality of Tensorboard logger works."""
 
     hparams = tutils.get_default_hparams()
-    model = LightningTestModel(hparams)
+    model = LightningTrialModel(hparams)
 
     logger = TensorBoardLogger(save_dir=tmpdir, name="tensorboard_logger_test")
 

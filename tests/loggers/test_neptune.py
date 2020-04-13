@@ -6,7 +6,7 @@ import torch
 import tests.base.utils as tutils
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import NeptuneLogger
-from tests.base import LightningTestModel
+from tests.base import LightningTrialModel
 
 
 def test_neptune_logger(tmpdir):
@@ -14,7 +14,7 @@ def test_neptune_logger(tmpdir):
     tutils.reset_seed()
 
     hparams = tutils.get_default_hparams()
-    model = LightningTestModel(hparams)
+    model = LightningTrialModel(hparams)
     logger = NeptuneLogger(offline_mode=True)
 
     trainer_options = dict(
@@ -103,7 +103,7 @@ def test_neptune_leave_open_experiment_after_fit(tmpdir):
     tutils.reset_seed()
 
     hparams = tutils.get_default_hparams()
-    model = LightningTestModel(hparams)
+    model = LightningTrialModel(hparams)
 
     def _run_training(logger):
         logger._experiment = MagicMock()

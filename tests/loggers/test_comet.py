@@ -9,7 +9,7 @@ import tests.base.utils as tutils
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import CometLogger
 from pytorch_lightning.utilities.exceptions import MisconfigurationException
-from tests.base import LightningTestModel
+from tests.base import LightningTrialModel
 
 
 def test_comet_logger(tmpdir, monkeypatch):
@@ -23,7 +23,7 @@ def test_comet_logger(tmpdir, monkeypatch):
     tutils.reset_seed()
 
     hparams = tutils.get_default_hparams()
-    model = LightningTestModel(hparams)
+    model = LightningTrialModel(hparams)
 
     comet_dir = os.path.join(tmpdir, 'cometruns')
 
