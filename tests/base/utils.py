@@ -21,8 +21,6 @@ ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
 def run_model_test_no_loggers(trainer_options, model, min_acc=0.50):
-    # save_dir = trainer_options['default_root_dir']
-
     # fit model
     trainer = Trainer(**trainer_options)
     result = trainer.fit(model)
@@ -59,8 +57,10 @@ def run_model_test(trainer_options, model, on_gpu=True):
     checkpoint = init_checkpoint_callback(logger)
 
     # add these to the trainer options
-    trainer_options['checkpoint_callback'] = checkpoint
-    trainer_options['logger'] = logger
+    trainer_options.update(dict(
+        checkpoint_callback=checkpoint,
+        logger=logger,
+    ))
 
     # fit model
     trainer = Trainer(**trainer_options)
