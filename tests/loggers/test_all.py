@@ -16,7 +16,7 @@ from tests.base import LightningTestModel
     MLFlowLogger,
     NeptuneLogger,
     # WandbLogger,  # TODO: add this one
-    # TestTubeLogger # TODO: add this one
+    TestTubeLogger,
     # TrainsLogger,  # TODO: add this one
 ])
 def test_loggers_fit_test(tmpdir, monkeypatch, logger_class):
@@ -68,9 +68,9 @@ def test_loggers_fit_test(tmpdir, monkeypatch, logger_class):
     TensorBoardLogger,
     CometLogger,
     MLFlowLogger,
-    # NeptuneLogger,  # TODO: add this one
+    NeptuneLogger,  # TODO: add this one
     # TrainsLogger,  # TODO: add this one
-    TestTubeLogger
+    TestTubeLogger,
     # WandbLogger,  # TODO: add this one
 ])
 def test_loggers_pickle(tmpdir, monkeypatch, logger_class):
