@@ -2,6 +2,7 @@ import pickle
 
 import tests.base.utils as tutils
 from pytorch_lightning import Trainer
+from pytorch_lightning.loggers import TestTubeLogger
 from tests.base import LightningTestModel
 
 
@@ -11,7 +12,7 @@ def test_testtube_logger(tmpdir):
     hparams = tutils.get_default_hparams()
     model = LightningTestModel(hparams)
 
-    logger = tutils.get_default_testtube_logger(tmpdir, False)
+    logger = TestTubeLogger(tmpdir, name='lightning_logs', debug=False)
 
     assert logger.name == 'lightning_logs'
 
@@ -34,7 +35,7 @@ def test_testtube_pickle(tmpdir):
 
     hparams = tutils.get_default_hparams()
 
-    logger = tutils.get_default_testtube_logger(tmpdir, False)
+    logger = TestTubeLogger(tmpdir, name='lightning_logs', debug=False)
     logger.log_hyperparams(hparams)
     logger.save()
 
